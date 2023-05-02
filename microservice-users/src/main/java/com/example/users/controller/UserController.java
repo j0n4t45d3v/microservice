@@ -1,14 +1,36 @@
 package com.example.users.controller;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.example.users.record.UserRequest;
+import com.example.users.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("user")
+@RequestMapping(value = "user", produces = "application/json")
 public class UserController {
+
+    @Autowired
+    private UserService userService;
+
     @GetMapping
-    public String get(){
-        return "api user";
+    public ResponseEntity<?> get() {
+        try {
+            var users = this.userService.getAllUser();
+            return ResponseEntity.ok(users);
+        } catch (Exception error) {
+            return ResponseEntity.internalServerError().body(error.getMessage());
+        }
     }
+
+    @PostMapping
+    public ResponseEntity<?> post(@RequestBody UserRequest userRequest) {
+        try {
+            this.userService.createUser(userRequest);
+            return ResponseEntity.ok("Usuario criado com sucesso!");
+        } catch (Exception error) {
+            return ResponseEntity.internalServerError().body(error.getMessage());
+        }
+    }
+
 }
