@@ -2,7 +2,7 @@ version: "3.6"
 
 services:
   gateway:
-    build: .
+    build: ./apigateway
     ports:
       - "8080:8080"
     depends_on:
@@ -11,19 +11,18 @@ services:
       - order
 
   user:
-    build: .
+    build: ./microservice-users
     ports:
       - "8082:8082"
-    depends_on:
-      - db_user
+
 
   product:
-    build: .
+    build: ./microcervice-products
     ports:
       - "8083:8083"
 
   order:
-    build: .
+    build: ./microservice-order
     ports:
       - "8081:8081"
 
