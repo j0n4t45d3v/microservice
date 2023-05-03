@@ -21,7 +21,7 @@ public class ProductService {
 
     public void createProduct(ProductRequest productRequest) {
         this.productRepository.findByName(productRequest.name())
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "produto ja existe"));
+                .ifPresent((product) -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "produto ja existe"));
 
         Product product = Product.builder()
                 .name(productRequest.name())

@@ -12,13 +12,16 @@ public class GatewayConfig {
     public RouteLocator customRouteLocator(RouteLocatorBuilder builder) {
         return builder.routes()
                 .route("user", r -> r
-                        .path("/user")
+                        .path("/user/v1")
+                        .filters(f -> f.rewritePath("/user/v1", "/user"))
                         .uri("http://localhost:8082/"))
                 .route("product", r -> r
-                        .path("/product")
+                        .path("/product/v1")
+                        .filters(f -> f.rewritePath("/product/v1", "/product"))
                         .uri("http://localhost:8083/"))
                 .route("order", r -> r
-                        .path("/order")
+                        .path("/order/v1")
+                        .filters(f -> f.rewritePath("/order/v1", "/order"))
                         .uri("http://localhost:8081/"))
                 .route("cep - brasilapi", r -> r
                         .path("/cep/v1/**")
@@ -30,6 +33,5 @@ public class GatewayConfig {
                         .uri("https://viacep.com.br"))
                 .build();
     }
-
 
 }
