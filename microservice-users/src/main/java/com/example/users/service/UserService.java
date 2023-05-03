@@ -30,7 +30,12 @@ public class UserService {
                     throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Email already exists");
                 });
 
-        User user = User.builder().name(userRequest.name()).email(userRequest.email()).password(userRequest.password()).birthDate(userRequest.birthDate()).build();
+        User user = User.builder()
+                .name(userRequest.name())
+                .email(userRequest.email())
+                .password(userRequest.password())
+                .birthDate(userRequest.birthDate())
+                .build();
 
         userRepository.save(user);
     }
@@ -40,9 +45,7 @@ public class UserService {
 
         userOptional.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuario não encontrado"));
 
-        userOptional.ifPresent((user) -> {
-            this.userRepository.delete(user);
-        });
+        userOptional.ifPresent((user) -> this.userRepository.delete(user));
     }
 
     public void updateByEmail(String email, UserRequest userUpdate) {
@@ -50,14 +53,20 @@ public class UserService {
 
         userOptional.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuario não encontrado"));
 
-        userOptional.ifPresent(user -> {
-            ModelMapper mapper = new ModelMapper();
+        ModelMapper mapper = new ModelMapper();
 
-            mapper.getConfiguration().setPropertyCondition(Conditions.isNotNull());
-            mapper.map(userUpdate, user);
+        mapper.createTypeMap(UserRequest.class, User.class)
+                .addMappings(m -> m.map(UserRequest::name ,User::setName))
+                .addMappings(m -> m.map(UserRequest::email ,User::setEmail))
+                .addMappings(m -> m.map(UserRequest::password ,User::setPassword))
+                .addMappings(m -> m.map(UserRequest::birthDate ,User::setBirthDate));
 
-            this.userRepository.save(user);
-        });
+        mapper.getConfiguration().setPropertyCondition(Conditions.isNotNull());
+
+        User user = userOptional.get();
+        mapper.map(userUpdate, user);
+
+        this.userRepository.save(user);
     }
 
 }

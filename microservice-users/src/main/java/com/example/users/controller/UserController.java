@@ -50,6 +50,7 @@ public class UserController {
         }
     }
 
+//    não ta pegando o update
     @PatchMapping("/{email}")
     public ResponseEntity<?> update(@PathVariable("email") String email, @RequestBody UserRequest userRequest){
         try {
@@ -61,5 +62,4 @@ public class UserController {
             return ResponseEntity.internalServerError().body(error.getMessage());
         }
     }
-
 }
