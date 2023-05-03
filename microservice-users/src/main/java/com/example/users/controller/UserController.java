@@ -20,7 +20,7 @@ public class UserController {
             var users = this.userService.getAllUser();
             return ResponseEntity.ok(users);
         } catch (ResponseStatusException error) {
-            return ResponseEntity.status(error.getStatusCode()).body(error.getMessage());
+            return ResponseEntity.status(error.getStatusCode()).body(error.getReason());
         } catch (Exception error) {
             return ResponseEntity.internalServerError().body(error.getMessage());
         }
@@ -32,7 +32,7 @@ public class UserController {
             this.userService.createUser(userRequest);
             return ResponseEntity.ok("Usuario criado com sucesso!");
         } catch (ResponseStatusException error) {
-            return ResponseEntity.status(error.getStatusCode()).body(error.getMessage());
+            return ResponseEntity.status(error.getStatusCode()).body(error.getReason());
         } catch (Exception error) {
             return ResponseEntity.internalServerError().body(error.getMessage());
         }
@@ -44,7 +44,7 @@ public class UserController {
             this.userService.deleteByEmail(email);
             return ResponseEntity.ok("Usuario deletado com sucesso!");
         } catch (ResponseStatusException error) {
-            return ResponseEntity.status(error.getStatusCode()).body(error.getMessage());
+            return ResponseEntity.status(error.getStatusCode()).body(error.getReason());
         } catch (Exception error) {
             return ResponseEntity.internalServerError().body(error.getMessage());
         }
@@ -57,7 +57,7 @@ public class UserController {
             this.userService.updateByEmail(email, userRequest);
             return ResponseEntity.ok("Usuario atualizado com sucesso!");
         } catch (ResponseStatusException error) {
-            return ResponseEntity.status(error.getStatusCode()).body(error.getMessage());
+            return ResponseEntity.status(error.getStatusCode()).body(error.getReason());
         } catch (Exception error) {
             return ResponseEntity.internalServerError().body(error.getMessage());
         }
