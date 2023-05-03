@@ -4,12 +4,15 @@ package com.example.users.service;
 import com.example.users.model.User;
 import com.example.users.record.UserRequest;
 import com.example.users.repository.UserRepository;
+import org.modelmapper.Conditions;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserService {
@@ -27,18 +30,34 @@ public class UserService {
                     throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Email already exists");
                 });
 
-        User user = User.builder()
-                .name(userRequest.name())
-                .email(userRequest.email())
-                .password(userRequest.password())
-                .birthDate(userRequest.birthDate())
-                .build();
+        User user = User.builder().name(userRequest.name()).email(userRequest.email()).password(userRequest.password()).birthDate(userRequest.birthDate()).build();
 
         userRepository.save(user);
     }
 
-    public void deleteAll() {
-        userRepository.deleteAll();
+    public void deleteByEmail(String email) {
+        Optional<User> userOptional = userRepository.findByEmail(email);
+
+        userOptional.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuario não encontrado"));
+
+        userOptional.ifPresent((user) -> {
+            this.userRepository.delete(user);
+        });
+    }
+
+    public void updateByEmail(String email, UserRequest userUpdate) {
+        Optional<User> userOptional = userRepository.findByEmail(email);
+
+        userOptional.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuario não encontrado"));
+
+        userOptional.ifPresent(user -> {
+            ModelMapper mapper = new ModelMapper();
+
+            mapper.getConfiguration().setPropertyCondition(Conditions.isNotNull());
+            mapper.map(userUpdate, user);
+
+            this.userRepository.save(user);
+        });
     }
 
 }
