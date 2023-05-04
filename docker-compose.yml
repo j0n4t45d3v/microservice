@@ -22,7 +22,7 @@ services:
     ports:
       - "8083:8083"
     depends_on:
-          - db
+      - db
 
   order:
     build: ./microservice-order
