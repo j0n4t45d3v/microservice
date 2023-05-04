@@ -14,49 +14,34 @@ services:
     build: ./microservice-users
     ports:
       - "8082:8082"
+    depends_on:
+      - db
 
   product:
     build: ./microcervice-products
     ports:
       - "8083:8083"
+    depends_on:
+          - db
 
   order:
     build: ./microservice-order
     ports:
       - "8081:8081"
+    depends_on:
+      - db
 
 
-  db_user:
-    image: mysql:8
+  db:
+    image: mysql:latest
     ports:
       - "3306:3306"
     environment:
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: database_user
     volumes:
-      - user_mysql:var/lib/mysql
+      - /home/casa/volumes-db/mysql-data:/var/lib/mysql:rw
 
-  db_product:
-    image: mysql:8
-    ports:
-      - "3307:3306"
-    environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: database_product
-    volumes:
-      - product_mysql:var/lib/mysql
 
-  db_order:
-    image: mysql:8
-    ports:
-      - "3308:3306"
-    environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: database_order
-    volumes:
-      - order_mysql:var/lib/mysql
 
 volumes:
-  user_mysql:
-  product_mysql:
-  order_mysql:
+  mysql-data:
