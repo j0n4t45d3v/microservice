@@ -1,6 +1,8 @@
 package com.example.microserviceorder.service;
 
+import com.example.microserviceorder.model.Items;
 import com.example.microserviceorder.model.Order;
+import com.example.microserviceorder.repository.ItemsRepository;
 import com.example.microserviceorder.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,8 +16,11 @@ public class OrderService {
     @Autowired
     private OrderRepository orderRepository;
 
-    public List<Order> getAllItems(UUID id) {
-        return orderRepository.findAllByCustomerId(id);
+    @Autowired
+    private ItemsRepository itemsRepository;
+
+    public List<Items> getAllItems(UUID id) {
+        return this.itemsRepository.findByProductId(id);
     }
 
     public void save(Order order) {
