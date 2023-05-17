@@ -9,10 +9,12 @@
         <outputRelativeToContentRoot value="true" />
         <module name="apigateway" />
         <module name="microcerviceproducts" />
-        <module name="microservice-order" />
         <module name="users" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="microservice-order" target="17" />
+    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">

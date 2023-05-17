@@ -3,11 +3,11 @@
   <component name="Encoding">
     <file url="file://$PROJECT_DIR$/apigateway/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/apigateway/src/main/resources" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/microcervice-products/src/main/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/microcervice-products/src/main/resources" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/microservice-order/src/main/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/microservice-order/src/main/resources" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/microservice-users/src/main/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/microservice-users/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/microservice/microcervice-products/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/microservice/microcervice-products/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/microservice/microservice-order/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/microservice/microservice-order/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/microservice/microservice-users/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/microservice/microservice-users/src/main/resources" charset="UTF-8" />
   </component>
 </project>
