@@ -1,2 +1,2 @@
-.idea/
-./microservice/**/target
+.idea
+microservice/**/target/

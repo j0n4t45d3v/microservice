@@ -3,9 +3,11 @@ server:
 
 
 spring:
+  application:
+    name: product-service
+
   datasource:
     username: sa
     password:
     url: jdbc:h2:mem:testdb
     driver-class-name: org.h2.Driver
-
