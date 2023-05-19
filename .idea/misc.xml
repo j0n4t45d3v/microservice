@@ -13,7 +13,22 @@
         <option value="$PROJECT_DIR$/microservice-users/pom.xml" />
         <option value="$PROJECT_DIR$/microservice/microservice-users/pom.xml" />
         <option value="$PROJECT_DIR$/microservice/microcervice-products/pom.xml" />
+        <option value="$PROJECT_DIR$/cloud/apigateway/pom.xml" />
+        <option value="$PROJECT_DIR$/microservice/microservice-order/pom.xml" />
+        <option value="$PROJECT_DIR$/registry-server/pom.xml" />
+        <option value="$PROJECT_DIR$/cloud/registry-server/pom.xml" />
+        <option value="$PROJECT_DIR$/cloud/config-server/pom.xml" />
+        <option value="$PROJECT_DIR$/microservice/user-service/pom.xml" />
+        <option value="$PROJECT_DIR$/microservice/product-service/pom.xml" />
+        <option value="$PROJECT_DIR$/microservice/order-service/pom.xml" />
       </list>
+    </option>
+    <option name="ignoredFiles">
+      <set>
+        <option value="$PROJECT_DIR$/microservice/microcervice-products/pom.xml" />
+        <option value="$PROJECT_DIR$/microservice/microservice-order/pom.xml" />
+        <option value="$PROJECT_DIR$/microservice/microservice-users/pom.xml" />
+      </set>
     </option>
   </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_19" default="true" project-jdk-name="19" project-jdk-type="JavaSDK">

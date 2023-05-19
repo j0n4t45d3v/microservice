@@ -8,19 +8,29 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="apigateway" />
-        <module name="microcerviceproducts" />
-        <module name="users" />
+        <module name="config-server" />
+        <module name="product-service" />
+        <module name="registry-server" />
+        <module name="user-service" />
+        <module name="order-service" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="microcerviceproducts" target="17" />
       <module name="microservice-order" target="17" />
+      <module name="users" target="17" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="apigateway" options="-parameters" />
+      <module name="config-server" options="-parameters" />
       <module name="microcerviceproducts" options="-parameters" />
       <module name="microservice-order" options="-parameters" />
+      <module name="order-service" options="-parameters" />
+      <module name="product-service" options="-parameters" />
+      <module name="registry-server" options="-parameters" />
+      <module name="user-service" options="-parameters" />
       <module name="users" options="-parameters" />
     </option>
   </component>
