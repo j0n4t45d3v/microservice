@@ -1,0 +1,1 @@
+./mvnw clean package #comando para buildar todos os projetos
