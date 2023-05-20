@@ -10,25 +10,41 @@ services:
       - product
       - order
 
+  registry-server:
+    build: ../cloud/registry-server
+    ports:
+      - "8761:8761"
+
+  config-server:
+    build: ../cloud/config-server
+    ports:
+      - "8088:8088"
+
   user:
     build: ../microservice/user-service
     ports:
-      - "8082:8082"
+      - "8081:8081"
     depends_on:
+      - config-server
+      - registry-server
       - db
 
   product:
     build: ../microservice/product-service
     ports:
-      - "8083:8083"
+      - "8082:8082"
     depends_on:
+      - config-server
+      - registry-server
       - db
 
   order:
     build: ../microservice/order-service
     ports:
-      - "8081:8081"
+      - "8083:8083"
     depends_on:
+      - config-server
+      - registry-server
       - db
 
 
@@ -40,8 +56,6 @@ services:
       MYSQL_ROOT_PASSWORD: root
     volumes:
       - /home/casa/volumes-db/mysql-data:/var/lib/mysql:rw
-
-
 
 volumes:
   mysql-data:

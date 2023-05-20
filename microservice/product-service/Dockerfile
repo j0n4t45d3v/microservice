@@ -1,4 +1,9 @@
-FROM ubuntu:latest
-LABEL authors="casa"
+FROM openjdk:17-alpine
 
-ENTRYPOINT ["top", "-b"]
+WORKDIR /product-service
+
+COPY ./target/*.jar /product-service/app.jar
+
+EXPOSE 8082
+
+ENTRYPOINT ["java", "-jar", "app.jar"]
