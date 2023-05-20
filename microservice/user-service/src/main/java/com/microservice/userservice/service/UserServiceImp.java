@@ -3,6 +3,7 @@ package com.microservice.userservice.service;
 import com.microservice.userservice.dto.UserDto;
 import com.microservice.userservice.model.User;
 import com.microservice.userservice.repository.UserRepository;
+import io.javatab.microservices.util.MapperCustom;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -81,17 +82,9 @@ public class UserServiceImp implements UserService {
     }
 
     private void copyNotNullProperties(UserDto dto, User user) {
-        if (dto.username() != null) {
-            user.setUsername(dto.username());
-        }
-
-        if (dto.email() != null) {
-            user.setEmail(dto.email());
-        }
-
-        if (dto.password() != null) {
-            user.setPassword(dto.password());
-        }
+        MapperCustom.updatePropererIfNotNull(user::setUsername, dto.username());
+        MapperCustom.updatePropererIfNotNull(user::setEmail, dto.email());
+        MapperCustom.updatePropererIfNotNull(user::setPassword, dto.password());
     }
 
     private UserDto transformUserToUserDto(User user) {

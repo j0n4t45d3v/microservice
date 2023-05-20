@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>io.javatab.microservices</groupId>
-    <artifactId>student-course-system</artifactId>
+    <artifactId>treino-microservice</artifactId>
     <version>1.0.0</version>
     <packaging>pom</packaging>
 
@@ -25,5 +25,6 @@
         <module>microservice/user-service</module>
         <module>microservice/product-service</module>
         <module>microservice/order-service</module>
+        <module>util/MapperCustomer</module>
     </modules>
 </project>
