@@ -10,9 +10,9 @@
         <module name="apigateway" />
         <module name="config-server" />
         <module name="product-service" />
-        <module name="registry-server" />
         <module name="user-service" />
         <module name="order-service" />
+        <module name="registry-server" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
