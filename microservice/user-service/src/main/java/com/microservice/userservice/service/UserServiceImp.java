@@ -37,10 +37,12 @@ public class UserServiceImp implements UserService {
     @Override
     public void create(UserDto user) {
         this.userRepository.findByEmail(user.email())
-                .orElseThrow(() -> new ResponseStatusException(
-                        HttpStatus.BAD_REQUEST,
-                        "email já cadastrado"
-                ));
+                .ifPresent((u) -> {
+                    throw new ResponseStatusException(
+                            HttpStatus.BAD_REQUEST,
+                            "email " + u.getEmail() + " já é cadastrado"
+                    );
+                });
 
         User newUser = User.builder()
                 .username(user.username())
