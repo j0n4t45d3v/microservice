@@ -90,6 +90,6 @@ public class UserServiceImp implements UserService {
     }
 
     private UserDto transformUserToUserDto(User user) {
-        return new UserDto(user.getUsername(), user.getEmail(), user.getPassword());
+        return UserDto.transformUserToUserDto(user);
     }
 }
