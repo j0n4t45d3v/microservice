@@ -76,7 +76,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     private CategoryDto transformCategoryToCategoryDto(Category category) {
-        return new CategoryDto(category.getName());
+        return CategoryDto.transformCategoryToCategoryDto(category);
     }
 
     private void copyNotNullProperties(CategoryDto dto, Category category) {
