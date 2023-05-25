@@ -29,7 +29,6 @@
         <option value="$PROJECT_DIR$/microservice/microcervice-products/pom.xml" />
         <option value="$PROJECT_DIR$/microservice/microservice-order/pom.xml" />
         <option value="$PROJECT_DIR$/microservice/microservice-users/pom.xml" />
-        <option value="$PROJECT_DIR$/microservice/user-service/pom.xml" />
       </set>
     </option>
   </component>
