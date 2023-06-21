@@ -1,10 +1,12 @@
 package com.microservice.productservice.service.implementations;
 
+import com.microservice.productservice.dto.OrderDto;
 import com.microservice.productservice.dto.ProductDto;
 import com.microservice.productservice.model.Product;
 import com.microservice.productservice.repository.ProductRepository;
 import com.microservice.productservice.service.ProductService;
 import io.javatab.microservices.util.MapperCustom;
+import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -79,7 +81,26 @@ public class ProductServiceImpl implements ProductService {
         this.productRepository.deleteById(id);
     }
 
-    private void copyNotNullProperties(ProductDto dto, Product product){
+    @RabbitListener(queues = "order-queue")
+    private void subtractStock(OrderDto orderDto) {
+        Product product = this.productRepository.findByName(orderDto.nameProduct())
+                .orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND,
+                        "produto não encontrado"
+                ));
+
+        if (product.getStock() < orderDto.quantityRequested()) {
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST,
+                    "quantidade solicitada maior que o estoque");
+        }
+
+        product.setStock(product.getStock() - orderDto.quantityRequested());
+
+        this.productRepository.save(product);
+    }
+
+    private void copyNotNullProperties(ProductDto dto, Product product) {
         MapperCustom.updatePropererIfNotNull(product::setName, dto.name());
         MapperCustom.updatePropererIfNotNull(product::setBrand, dto.brand());
         MapperCustom.updatePropererIfNotNull(product::setDescription, dto.description());

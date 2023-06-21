@@ -5,3 +5,8 @@ spring:
   config:
     import: "optional:configserver:http://localhost:8088"
 
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: user
+    password: user123
