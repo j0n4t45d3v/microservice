@@ -1,6 +1,7 @@
 package com.microservice.productservice.controller;
 
 import com.microservice.productservice.dto.BrandDto;
+import com.microservice.productservice.dto.Message;
 import com.microservice.productservice.service.BrandService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -30,26 +31,29 @@ public class BrandController {
     }
 
     @PostMapping
-    public ResponseEntity<?> create(@RequestBody BrandDto brandDto) {
+    public ResponseEntity<Message> create(@RequestBody BrandDto brandDto) {
 
         this.brandService.create(brandDto);
-        return ResponseEntity.ok().build();
+        var response = new Message("marca criada");
+        return ResponseEntity.ok(response);
 
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> update(@PathVariable("id") Long id, @RequestBody BrandDto brandDto) {
+    public ResponseEntity<Message> update(@PathVariable("id") Long id, @RequestBody BrandDto brandDto) {
 
         this.brandService.update(id, brandDto);
-        return ResponseEntity.ok().build();
+        var response = new Message("marca atualizada");
+        return ResponseEntity.ok(response);
 
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(@PathVariable("id") Long id) {
+    public ResponseEntity<Message> delete(@PathVariable("id") Long id) {
 
         this.brandService.delete(id);
-        return ResponseEntity.ok().build();
+        var response = new Message("marca deletada");
+        return ResponseEntity.ok(response);
 
     }
 }

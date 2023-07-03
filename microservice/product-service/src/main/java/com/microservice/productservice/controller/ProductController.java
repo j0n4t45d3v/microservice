@@ -1,5 +1,6 @@
 package com.microservice.productservice.controller;
 
+import com.microservice.productservice.dto.Message;
 import com.microservice.productservice.dto.ProductDto;
 import com.microservice.productservice.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,26 +31,28 @@ public class ProductController {
     }
 
     @PostMapping
-    public ResponseEntity<?> create(@RequestBody ProductDto productDto) {
+    public ResponseEntity<Message> create(@RequestBody ProductDto productDto) {
 
         this.productService.create(productDto);
-        return ResponseEntity.ok("produto criado");
-
+        var response = new Message("produto criado");
+        return ResponseEntity.ok(response);
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<?> update(@PathVariable("id") Long id, @RequestBody ProductDto productDto) {
+    public ResponseEntity<Message> update(@PathVariable("id") Long id, @RequestBody ProductDto productDto) {
 
         this.productService.update(id, productDto);
-        return ResponseEntity.ok("produto atualizado");
+        var response = new Message("produto atualizado");
+        return ResponseEntity.ok(response);
 
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(@PathVariable("id") Long id) {
+    public ResponseEntity<Message> delete(@PathVariable("id") Long id) {
 
         this.productService.delete(id);
-        return ResponseEntity.ok("produto deletado");
+        var response = new Message("produto deletado");
+        return ResponseEntity.ok(response);
 
     }
 }
