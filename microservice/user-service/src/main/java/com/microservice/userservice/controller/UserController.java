@@ -1,11 +1,13 @@
 package com.microservice.userservice.controller;
 
+import com.microservice.userservice.dto.Message;
 import com.microservice.userservice.dto.UserDto;
 import com.microservice.userservice.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/v1/users")
@@ -15,61 +17,46 @@ public class UserController {
     private UserService userService;
 
     @GetMapping
-    public ResponseEntity<?> getAll() {
-        try {
-            var users = this.userService.getAll();
-            return ResponseEntity.ok(users);
-        } catch (Exception e) {
-            return ResponseEntity.internalServerError().body(e.getMessage());
-        }
+    public ResponseEntity<List<UserDto>> getAll() {
+
+        var users = this.userService.getAll();
+        return ResponseEntity.ok(users);
+
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> getById(@PathVariable("id") Long id) {
-        try {
-            var user = this.userService.getById(id);
-            return ResponseEntity.ok(user);
-        } catch (ResponseStatusException error) {
-            return ResponseEntity.status(error.getStatusCode()).body(error.getMessage());
-        } catch (Exception e) {
-            return ResponseEntity.internalServerError().body(e.getMessage());
-        }
+    public ResponseEntity<UserDto> getById(@PathVariable("id") Long id) {
+
+        var user = this.userService.getById(id);
+        return ResponseEntity.ok(user);
+
     }
 
     @PostMapping
-    public ResponseEntity<?> create(@RequestBody UserDto body) {
-        try {
-            this.userService.create(body);
-            return ResponseEntity.ok("usuario criado");
-        } catch (ResponseStatusException error) {
-            return ResponseEntity.status(error.getStatusCode()).body(error.getMessage());
-        } catch (Exception e) {
-            return ResponseEntity.internalServerError().body(e.getMessage());
-        }
+    public ResponseEntity<Message> create(@RequestBody UserDto body) {
+
+        this.userService.create(body);
+        var response = new Message("usuario criado");
+        return ResponseEntity.ok(response);
+
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<?> update(@PathVariable("id") Long id, @RequestBody UserDto body) {
-        try {
-            this.userService.update(id, body);
-            return ResponseEntity.ok("usuario atualizado");
-        } catch (ResponseStatusException error) {
-            return ResponseEntity.status(error.getStatusCode()).body(error.getMessage());
-        } catch (Exception e) {
-            return ResponseEntity.internalServerError().body(e.getMessage());
-        }
+    public ResponseEntity<Message> update(@PathVariable("id") Long id, @RequestBody UserDto body) {
+
+        this.userService.update(id, body);
+        var response = new Message("usuario atualizado");
+        return ResponseEntity.ok(response);
+
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(@PathVariable("id") Long id) {
-        try {
-            this.userService.delete(id);
-            return ResponseEntity.ok("usuario deletado");
-        } catch (ResponseStatusException error) {
-            return ResponseEntity.status(error.getStatusCode()).body(error.getMessage());
-        } catch (Exception e) {
-            return ResponseEntity.internalServerError().body(e.getMessage());
-        }
+    public ResponseEntity<Message> delete(@PathVariable("id") Long id) {
+
+        this.userService.delete(id);
+        var response = new Message("usuario deletado");
+        return ResponseEntity.ok(response);
+
     }
 
 }
