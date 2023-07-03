@@ -3,7 +3,7 @@ package com.microservice.userservice.service;
 import com.microservice.userservice.dto.UserDto;
 import com.microservice.userservice.model.User;
 import com.microservice.userservice.repository.UserRepository;
-import io.javatab.microservices.util.MapperCustom;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -17,79 +17,66 @@ public class UserServiceImp implements UserService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private ModelMapper mapper;
+
     @Override
     public List<UserDto> getAll() {
-        return this.userRepository.findAll()
-                .stream().map(this::transformUserToUserDto)
-                .toList();
+        return this.userRepository.findAllParserDto();
     }
 
     @Override
     public UserDto getById(Long id) {
-        return this.userRepository.findById(id)
-                .map(this::transformUserToUserDto)
-                .orElseThrow(() -> new ResponseStatusException(
-                        HttpStatus.NOT_FOUND,
-                        "usuario não encontrado"
-                ));
+        return this.userAlreadyExists(id);
     }
 
     @Override
     public void create(UserDto user) {
-        this.userRepository.findByEmail(user.email())
-                .ifPresent((u) -> {
-                    throw new ResponseStatusException(
-                            HttpStatus.BAD_REQUEST,
-                            "email " + u.getEmail() + " já é cadastrado"
-                    );
-                });
+        this.userAlreadyExists(user.email());
 
-        User newUser = User.builder()
-                .username(user.username())
-                .email(user.email())
-                .password(user.password())
-                .build();
+        User newUser = user.ToUser();
 
         this.userRepository.save(newUser);
     }
 
     @Override
     public void update(Long id, UserDto userDto) {
-        User user = this.userRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(
-                        HttpStatus.NOT_FOUND,
-                        "usuario não encontrado"
-                ));
+        User user = this.userAlreadyExists(id).ToUser();
 
-        this.userRepository.findByEmail(userDto.email())
-                .orElseThrow(() -> new ResponseStatusException(
-                        HttpStatus.BAD_REQUEST,
-                        "email já cadastrado"
-                ));
+        this.userAlreadyExists(userDto.email());
 
-        this.copyNotNullProperties(userDto, user);
+        this.copyProperties(userDto, user);
 
         this.userRepository.save(user);
     }
 
     @Override
     public void delete(Long id) {
-        this.userRepository.findById(id)
+        this.userAlreadyExists(id);
+        this.userRepository.deleteById(id);
+    }
+
+    private void copyProperties(UserDto dto, User user) {
+        mapper.map(dto.ToUser(), user);
+    }
+
+    private void userAlreadyExists(String email) {
+        this.userRepository.findByEmail(email)
+                .ifPresent((u) -> {
+                    throw new ResponseStatusException(
+                            HttpStatus.BAD_REQUEST,
+                            "email " + u.getEmail() + " já é cadastrado"
+                    );
+                });
+    }
+
+    private UserDto userAlreadyExists(Long id) {
+        return this.userRepository.findByIdParserDto(id)
                 .orElseThrow(() -> new ResponseStatusException(
                         HttpStatus.NOT_FOUND,
                         "usuario não encontrado"
                 ));
-
-        this.userRepository.deleteById(id);
     }
 
-    private void copyNotNullProperties(UserDto dto, User user) {
-        MapperCustom.updatePropererIfNotNull(user::setUsername, dto.username());
-        MapperCustom.updatePropererIfNotNull(user::setEmail, dto.email());
-        MapperCustom.updatePropererIfNotNull(user::setPassword, dto.password());
-    }
 
-    private UserDto transformUserToUserDto(User user) {
-        return UserDto.transformUserToUserDto(user);
-    }
 }

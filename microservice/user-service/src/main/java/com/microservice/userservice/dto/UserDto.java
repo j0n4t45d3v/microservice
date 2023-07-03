@@ -7,8 +7,16 @@ public record UserDto(
         String email,
         String password
 ) {
+    public UserDto(User user){
+        this(user.getUsername(), user.getEmail(), user.getPassword());
+    }
 
-    public static UserDto transformUserToUserDto(User user) {
-        return new UserDto(user.getUsername(), user.getEmail(), user.getPassword());
+
+    public User ToUser() {
+        return User.builder()
+                .username(this.username())
+                .email(this.email())
+                .password(this.password())
+                .build();
     }
 }
