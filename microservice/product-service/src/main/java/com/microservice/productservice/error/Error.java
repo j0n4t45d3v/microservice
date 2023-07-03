@@ -2,9 +2,12 @@ package com.microservice.productservice.error;
 
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
-@JsonPropertyOrder({"error", "status"})
+import java.time.LocalDateTime;
+
+@JsonPropertyOrder({"error", "status", "timestamp"})
 public record Error(
         String error,
-        Integer status
+        Integer status,
+        LocalDateTime timestamp
 ) {
 }
